@@ -19,7 +19,10 @@ Route::post('client/', function () {
     return view('client');
 });
 
-Route::get('login/', function () {
+Route::get('login', function () {
     return view('login');
 });
 
+Route::get('fetchtest', function () {
+    return view('fetchtest');
+});
