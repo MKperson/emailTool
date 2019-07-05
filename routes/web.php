@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('client/', function () {
+    return view('client');
+});
+
+Route::get('login/', function () {
+    return view('login');
+});
+
