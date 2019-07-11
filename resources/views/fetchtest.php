@@ -30,13 +30,27 @@ use Illuminate\Support\Facades\DB;
 //  }
 //    $conn->close();
 
+//$name = $_POST['formCustomer'];
+$name = 'john';
+$results = DB::select("select * from customer where f_name = '$name'");
+var_dump($results);
+echo "</br>";
+foreach($results as &$result){
+echo "</br>";
+//echo $result['f_name'];
+$key = get_object_vars($result);
+echo "this is \$key ";
+var_dump($key);
+   foreach($result as $value){
+      echo "$value" . " ";
+   }
+//$keys = (get_object_vars($results[0]));
+//foreach($keys as &$key)
+//$results[0]->$key ;
+//echo $key;
+echo "</br>";
 
-$results = DB::select('select * from customer');
-//foreach($results as &$value)
-$keys = (get_object_vars($results[0]));
-foreach($keys as &$key)
-echo "$key" . " " ;// $results[0]->$key ;
-//var_dump($results);
-
-
+}
+var_dump($result->f_name);  // this is how you pull a peace of data out of an object
    ?>
+   <p></p>

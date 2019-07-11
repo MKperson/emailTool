@@ -100,7 +100,21 @@
                 -->
                         <form action="client" method="POST">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            Email: <input type="text" name="email">
+
+                            Who do you want to edit?
+
+                            <select name="formCustomer">
+                                <?php
+                                $results = DB::select("select * from customer");
+                                //var_dump($results);
+                                echo "<option value='' >Selec t... </option></br>";
+                                foreach ($results as &$result) {
+                                    $name = $result->c_name;
+                                    echo "<option value ='$name'>$name </option>";
+                                }
+                                ?>
+                            </select>
+                            
                             <input type="submit" value="submit">
                         </form>
 
