@@ -7,6 +7,8 @@
     <h3>Editing</h3>
     <?php
     $name = $_POST['formCustomer'];
+
+    
     $results = DB::select("select * from customer where c_name = '$name'");
     //var_dump($results);
     //echo "</br>";

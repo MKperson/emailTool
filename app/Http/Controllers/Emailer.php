@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Controllers\Controller;
 
-class EmailerController extends Controller
+class Emailer extends Controller
 {
     /**
      * Show the profile for the given user.

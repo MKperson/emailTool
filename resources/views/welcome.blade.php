@@ -105,6 +105,7 @@
 
                             <select name="formCustomer">
                                 <?php
+                                use \App\Http\Controllers\Emailer;
                                 $results = DB::select("select * from customer");
                                 //var_dump($results);
                                 echo "<option value='' >Selec t... </option></br>";
