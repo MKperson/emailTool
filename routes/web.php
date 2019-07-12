@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+ Route::get('/','EmailerController@index');
+ //Route::get('/', function () {
+     //return view('welcome');
+ //});
 
 Route::post('client/', function () {
     return view('client');
@@ -26,3 +28,5 @@ Route::get('login', function () {
 Route::get('fetchtest', function () {
     return view('fetchtest');
 });
+
+

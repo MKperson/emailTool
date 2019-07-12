@@ -105,10 +105,11 @@
 
                             <select name="formCustomer">
                                 <?php
-                                use \App\Http\Controllers\Emailer;
-                                $results = DB::select("select * from customer");
+                               use App\Http\Controllers\EmailerController;
+                                $results = EmailerController::Fetch('customer');
+                                //DB::select("select * from customer");
                                 //var_dump($results);
-                                echo "<option value='' >Selec t... </option></br>";
+                                echo "<option value='' >Select... </option></br>";
                                 foreach ($results as &$result) {
                                     $name = $result->c_name;
                                     echo "<option value ='$name'>$name </option>";
