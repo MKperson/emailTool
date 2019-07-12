@@ -2,6 +2,7 @@
 //die(var_dump($_POST));
 ?>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -72,8 +73,6 @@
         <?php
 
         use \App\Http\Controllers\EmailerController;
-        use PhpParser\Node\Stmt\TryCatch;
-        use PHPUnit\Framework\MockObject\Stub\Exception;
 
         $name = $_POST['formCustomer'];
         //$call = "select * from customer where c_name = '$name'";
