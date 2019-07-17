@@ -15,15 +15,19 @@ class EmailerController extends Controller
         //echo 'starting method';
         return view('welcome');
     }
+    
     public static function Fetch($table, $constrantfieldname = null, $data = null)
     {
         //$results = null;
 
         if ($constrantfieldname === null or $data === null) {
-            $results = DB::select('select * from ' . $table);
+            //$results = DB::select('select * from ' . $table);
+            $results = DB::table($table)->get();
+
+        
         } else {
-            $results = DB::select('select * from ' . $table . ' where ' . $constrantfieldname . ' = ' . '\'' . $data . '\'');
-            
+            //$results = DB::select('select * from ' . $table . ' where ' . $constrantfieldname . ' = ' . '\'' . $data . '\'');
+            $results = DB::table($table)->where($constrantfieldname, $data )->get();
         }
 
         //var_dump($results);
@@ -35,6 +39,18 @@ class EmailerController extends Controller
             $result = $results[0];
             return $result;
         }
+    }
+    public static function update(){
+        foreach ($_POST as $key => $value) {
+           echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+        }
+        // DB::table($table)
+        //     ->where('id', $id)
+        //     ->update($data);
+        //     return view('welcome');
+        //echo var_dump($data);
+        //return view('welcome');
+        return "function called.";
     }
     public function getAdminData()
     {
