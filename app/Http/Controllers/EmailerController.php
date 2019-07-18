@@ -40,16 +40,22 @@ class EmailerController extends Controller
             return $result;
         }
     }
-    public static function update(){
+    public function update(){
+        var_dump($_POST);
         foreach ($_POST as $key => $value) {
            echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-        }
-        // DB::table($table)
-        //     ->where('id', $id)
+       }
+       $cust_array = array('c_email'=>$_POST['c_email'],'c_number'=>$_POST['c_number'],'c_address'=>$_POST['c_address'],'delv_content'=>$_POST['delv_content']);
+       var_dump($cust_array);
+
+       $this->handupdate('customer','cust_id',$_POST['cust_id'],$cust_array);
+        //  DB::table($table)
+        //     ->where($key, $id)
         //     ->update($data);
-        //     return view('welcome');
+            //return view('welcome');
         //echo var_dump($data);
-        //return view('welcome');
+    
+        //return view('welcome'); 
         return "function called.";
     }
     public function getAdminData()
@@ -59,5 +65,12 @@ class EmailerController extends Controller
     public function adminPassword()
     {
         echo 'password method';
+    }
+    public function handupdate($table,$col,$key,$array){
+        DB::table($table)
+        ->where($col,'=',$key)
+        ->update($array);
+        return "hand function called";
+
     }
 }
