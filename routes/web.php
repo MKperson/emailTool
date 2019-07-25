@@ -17,6 +17,7 @@ Route::get('/', 'EmailerController@index');
 //return view('welcome');
 //});
 Route::post('/update', 'EmailerController@update')->name('update');
+Route::post('/reload', 'EmailerController@reload')->name('reload');
 
 Route::post('client/', function () {
     return view('client');

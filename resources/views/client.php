@@ -73,6 +73,7 @@
 </head>
 
 <body>
+
     <div>
         <?php
 
@@ -96,27 +97,28 @@
 
             echo "<h3>Editing</h3>";
             echo "<h4>$result->c_name</h4>"; ?>
-            <form action="/update" method='POST'> 
+            <form action="/update" method='POST'>
                 <!---->
-                Email: <input type = 'text' name='c_email' value = '<?php echo $result->c_email ?>'></br>
-                Address: <input type = 'text' name = 'c_address' value = '<?php echo $result->c_address?>'></br>
-                Phone: <input type = 'text' name = 'c_number'value = '<?php echo $result->c_number?>'></br>
-                <input type="hidden" name="cust_id" value = '<?php echo $result->cust_id?>'>
-                
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                Email: <input type='text' id='c_email' value='<?php echo $result->c_email ?>'></br>
+                Address: <input type='text' id='c_address' value='<?php echo $result->c_address ?>'></br>
+                Phone: <input type='text' id='c_number' value='<?php echo $result->c_number ?>'></br>
+                <input type="hidden" id="cust_id" value='<?php echo $result->cust_id ?>'>
+                <input type="hidden" id="cur_phase" value='<?php echo $result->cur_phase ?>'>
 
-                Current Phase <select name='p_name'>
+                <input type="hidden" id="_token" value="{{ csrf_token() }}">
+
+                Current Phase <select id='p_name' onchange="reload()">
                     <?php
                     $index = 0;
                     for ($i = 0; $i < sizeof($phase); $i++) {
                         if ($phase[$i]->phase_id == $result->cur_phase) {
-                            $index=$i
+                            $index = $i
                             ?>
                             <option value='<?php echo $phase[$i]->p_name ?>' selected='selected'><?php echo $phase[$i]->p_name ?> </option>
                         <?php
                         } else {
                             ?>
-                            <option value='<?php echo $phase[$i]->p_name?>'><?php echo $phase[$i]->p_name ?> </option>
+                            <option value='<?php echo $phase[$i]->p_name ?>'><?php echo $phase[$i]->p_name ?> </option>
                         <?php
                         }
                     }
@@ -124,30 +126,46 @@
                     //echo "Current Phase: <input type='text' value='$result->cur_phase'></br></br>";
                     //echo "$daymess : <input type='text' name= 'days' value='$result->est_day_left'></br>";
                     ?>
-                    <?php echo $daymess?> : <input type = 'text' name = 'est_day_left' value = '<?php echo $phase[$index]->est_day_left?>'> </br>
-                    
-                    Additional Comments:<br><textarea name = 'p_comment'><?php echo $phase[$index]->p_comment?></textarea></br>
-                    <?php 
+                    <?php echo $daymess ?> : <input type='text' id='est_day_left' value='<?php echo $phase[$index]->est_day_left ?>'> </br>
+
+                    Additional Comments:<br><textarea id='p_comment'><?php echo $phase[$index]->p_comment ?></textarea></br>
+                    <?php
                     if ($result->delv_content == true) {
-                        echo "<input type='radio' name='delv_content' checked value = '1'>Has Deliverd Content
-            <input type='radio' name='delv_content' value = '0'>Waiting on Content</br>";
+                        echo "<input type='radio' name='delv_content' id='delv_content' checked value = '1'>Has Deliverd Content
+            <input type='radio' name='delv_content' id='delv_content' value = '0'>Waiting on Content</br>";
                     } else {
-                        echo "<input type='radio' name='delv_content' value='1' >Has Deliverd Content
-            <input type='radio' name='delv_content' checked value='0'>Waiting on Content</br>";
+                        echo "<input type='radio' name='delv_content' id='delv_content' value='1' >Has Deliverd Content
+            <input type='radio' name='delv_content'  checked value='0'>Waiting on Content</br>";
                     }
 
 
                     ?>
-                    <input type="submit" value='submit' >
-                    <!--onClick="update()"-->
+                    <input type="button" value='Submit' onClick="update()">
+                    <input type="button" value="Cancel" onclick="location.href = '/'">
+                    <!---->
 
                     <script>
                         //jQuery(document).ready(function($) {
 
                         function update() {
-                            alert('Running update.');
-                            var ph = $('#phase').val();
-                            var str = $( "form" ).serialize();
+                            //alert('Running update.');
+                            //var ph = $('#phase').val();
+                            var cpid = $('#cur_phase').val();
+                            var cma = $('#c_email').val();
+                            var cadd = $('#c_address').val();
+                            var cnum = $('#c_number').val();
+                            var cid = $('#cust_id').val();
+                            var tok = $('#_token').val();
+                            var pn = $('#p_name').val();
+                            var edl = $('#est_day_left').val();
+                            var pc = $('#p_comment').val();
+                            var dc = $('#delv_content')[0].checked
+                            if (dc == true)
+                                dc = 1;
+                            else
+                                dc = 0;
+                            console.log(cpid);
+
 
                             $.ajaxSetup({
                                 headers: {
@@ -158,23 +176,57 @@
                             $.ajax({
                                 url: "/update",
                                 type: 'POST',
-                                data: //$("#registerSubmit").serialize()
-                                {
-                                    form: str,
+                                data: {
+                                    c_email: cma,
+                                    c_address: cadd,
+                                    c_number: cnum,
+                                    cust_id: cid,
+                                    _token: tok,
+                                    p_name: pn,
+                                    est_day_left: edl,
+                                    p_comment: pc,
+                                    delv_content: dc,
+                                    cur_phase:cpid
+
+                                    //form: str,
                                     //phase: ph,
                                     //_token: '{{csrf_token()}}'
-
-
                                 },
                                 success: function(response) {
                                     console.log('Success: ' + response);
+                                    location.href='/';
+                                    alert('Success');
                                 },
                                 error: function(xhr, errorCode, errorThrown) {
                                     console.log(xhr.responseText);
                                 }
                             })
                         };
-                        //});
+
+                        function reload() {
+                            //alert("Reload called");
+                            var cid = $('#cust_id').val();
+                            var pn = $('#p_name').val();
+                            $.ajax({
+                                url: "/reload",
+                                type: 'POST',
+                                data: {
+                                    cust_id: cid,
+                                    p_name: pn
+                                },
+                                success: function(response) {
+                                    console.log('Success: ' + response);
+                                    location.reload(true);
+                                },
+                                error: function(xhr, errorCode, errorThrown) {
+                                    console.log(xhr.responseText);
+                                }
+                            })
+                             //location.reload(true);
+                        };
+
+
+                           
                     </script>
 
             </form>

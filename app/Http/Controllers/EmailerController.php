@@ -41,14 +41,19 @@ class EmailerController extends Controller
         }
     }
     public function update(){
-        var_dump($_POST);
-        foreach ($_POST as $key => $value) {
+        //var_dump($_POST);
+        /*foreach ($_POST as $key => $value) {
            echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-       }
+       }*/
        $cust_array = array('c_email'=>$_POST['c_email'],'c_number'=>$_POST['c_number'],'c_address'=>$_POST['c_address'],'delv_content'=>$_POST['delv_content']);
-       var_dump($cust_array);
+       //var_dump($cust_array);
+       $phase_array = array('p_comment'=>$_POST['p_comment'],'est_day_left'=>$_POST['est_day_left']);
+       //$cur_phase = $this->Fetch('c_phase','p_name',$_POST['p_name']);
+       //var_dump($phase_array);
 
        $this->handupdate('customer','cust_id',$_POST['cust_id'],$cust_array);
+       $this -> handupdate('c_phase','phase_id',$_POST['cur_phase'],$phase_array);
+
         //  DB::table($table)
         //     ->where($key, $id)
         //     ->update($data);
@@ -56,7 +61,7 @@ class EmailerController extends Controller
         //echo var_dump($data);
     
         //return view('welcome'); 
-        return "function called.";
+        return "update called.";
     }
     public function getAdminData()
     {
@@ -66,11 +71,24 @@ class EmailerController extends Controller
     {
         echo 'password method';
     }
+    public function reload(){
+        var_dump($_POST);
+        $cur_phase = DB::select('select * from c_phase where cust_id  = ' .$_POST['cust_id']. ' and p_name = \''.$_POST['p_name'].'\'');
+        $curarray = array('cur_phase'=>$cur_phase[0]->phase_id);
+        var_dump($curarray);
+        //*
+        DB::table('customer')
+        ->where('cust_id','=',$_POST['cust_id'])
+        ->update($curarray);
+        //*/
+        //var_dump($cur_phase);
+        return 'reload called';
+    }
     public function handupdate($table,$col,$key,$array){
         DB::table($table)
         ->where($col,'=',$key)
         ->update($array);
-        return "hand function called";
+        //return "hand function called";
 
     }
 }
