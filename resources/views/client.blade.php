@@ -1,7 +1,11 @@
+@extends('layouts.app')
+
 <?php
 //die(var_dump($_POST));
 ?>
+
 <html>
+    
 
 <head>
     <meta charset="utf-8">
@@ -14,10 +18,10 @@
     <title>Emailer</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet"> -->
 
     <!-- Styles -->
-    <style>
+    <!-- <style>
         html,
         body {
             background-color: #dadfe3;
@@ -69,9 +73,9 @@
         .m-b-md {
             margin-bottom: 30px;
         }
-    </style>
+    </style> -->
 </head>
-
+@section('content')    
 <body>
 
     <div>
@@ -262,5 +266,5 @@
     </div>
 
 </body>
-
+@endsection
 </html>

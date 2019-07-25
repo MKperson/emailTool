@@ -12,27 +12,22 @@
 */
 
 
-Route::get('/', 'EmailerController@index');
+Route::get('/', 'EmailerController@index')->middleware('auth');
 //Route::get('/', function () {
 //return view('welcome');
 //});
 Route::post('/update', 'EmailerController@update')->name('update');
 Route::post('/reload', 'EmailerController@reload')->name('reload');
+Route::get('/template', 'EmailerController@template')->name('template');
 
 Route::post('client/', function () {
     return view('client');
 });
 
-// Route::get('login', function () {
-//     return view('login');
-// });
-
 Route::get('fetchtest', function () {
     return view('fetchtest');
 });
 
-
-
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');

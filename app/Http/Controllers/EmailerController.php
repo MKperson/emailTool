@@ -63,6 +63,9 @@ class EmailerController extends Controller
         //return view('welcome'); 
         return "update called.";
     }
+    public function template(){
+        return view('template');
+    }
     public function getAdminData()
     {
         echo 'admin data method';
