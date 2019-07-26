@@ -18,7 +18,7 @@ Route::get('/', 'EmailerController@index')->middleware('auth');
 //});
 Route::post('/update', 'EmailerController@update')->name('update');
 Route::post('/reload', 'EmailerController@reload')->name('reload');
-Route::get('/template', 'EmailerController@template')->name('template');
+Route::match(['get', 'post'] ,'/template', 'EmailerController@template')->name('template');
 
 Route::post('client/', function () {
     return view('client');

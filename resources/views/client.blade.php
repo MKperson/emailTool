@@ -5,7 +5,7 @@
 ?>
 
 <html>
-    
+
 
 <head>
     <meta charset="utf-8">
@@ -17,65 +17,10 @@
 
     <title>Emailer</title>
 
-    <!-- Fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet"> -->
-
-    <!-- Styles -->
-    <!-- <style>
-        html,
-        body {
-            background-color: #dadfe3;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links>a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style> -->
+    
 </head>
-@section('content')    
+@section('content')
+
 <body>
 
     <div>
@@ -108,6 +53,7 @@
                 Phone: <input type='text' id='c_number' value='<?php echo $result->c_number ?>'></br>
                 <input type="hidden" id="cust_id" value='<?php echo $result->cust_id ?>'>
                 <input type="hidden" id="cur_phase" value='<?php echo $result->cur_phase ?>'>
+                <input type="hidden" id="company_name" value='<?php echo $result->c_name ?>'>
 
                 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 
@@ -145,93 +91,10 @@
 
                     ?>
                     <input type="button" value='Submit' onClick="update()">
-                    <input type="button" value="Cancel" onclick="location.href = '/'">
-                    <!---->
-
-                    <script>
-                        //jQuery(document).ready(function($) {
-
-                        function update() {
-                            //alert('Running update.');
-                            //var ph = $('#phase').val();
-                            var cpid = $('#cur_phase').val();
-                            var cma = $('#c_email').val();
-                            var cadd = $('#c_address').val();
-                            var cnum = $('#c_number').val();
-                            var cid = $('#cust_id').val();
-                            var tok = $('#_token').val();
-                            var pn = $('#p_name').val();
-                            var edl = $('#est_day_left').val();
-                            var pc = $('#p_comment').val();
-                            var dc = $('#delv_content')[0].checked
-                            if (dc == true)
-                                dc = 1;
-                            else
-                                dc = 0;
-                            console.log(cpid);
-
-
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }
-                            });
-
-                            $.ajax({
-                                url: "/update",
-                                type: 'POST',
-                                data: {
-                                    c_email: cma,
-                                    c_address: cadd,
-                                    c_number: cnum,
-                                    cust_id: cid,
-                                    _token: tok,
-                                    p_name: pn,
-                                    est_day_left: edl,
-                                    p_comment: pc,
-                                    delv_content: dc,
-                                    cur_phase:cpid
-
-                                    //form: str,
-                                    //phase: ph,
-                                    //_token: '{{csrf_token()}}'
-                                },
-                                success: function(response) {
-                                    console.log('Success: ' + response);
-                                    location.href='/';
-                                    alert('Success');
-                                },
-                                error: function(xhr, errorCode, errorThrown) {
-                                    console.log(xhr.responseText);
-                                }
-                            })
-                        };
-
-                        function reload() {
-                            //alert("Reload called");
-                            var cid = $('#cust_id').val();
-                            var pn = $('#p_name').val();
-                            $.ajax({
-                                url: "/reload",
-                                type: 'POST',
-                                data: {
-                                    cust_id: cid,
-                                    p_name: pn
-                                },
-                                success: function(response) {
-                                    console.log('Success: ' + response);
-                                    location.reload(true);
-                                },
-                                error: function(xhr, errorCode, errorThrown) {
-                                    console.log(xhr.responseText);
-                                }
-                            })
-                             //location.reload(true);
-                        };
-
-
-                           
-                    </script>
+                    <input type="button" value="Cancel" onclick="location.href = '/'"><br>
+                    <input type="button" value="Preview message" onclick="preview()">
+                    
+                    <script type="text/javascript" src='js/scripts.js'></script>
 
             </form>
         <?php
@@ -239,27 +102,7 @@
             echo "An error has occured";
         }
 
-        $js = "jQuery(document).ready(function($){
 
-            function update() {
-                alert('Running update.');
-                var ph = $('#phase').value();
-
-                $.ajax({
-                    url: '/update',
-                    type: 'POST',
-                    data: {
-                        phase: ph
-                    },
-                    success: function(response) {
-                        console.log('Success: ' + response);
-                    },
-                    error: function(xhr, errorCode, errorThrown) {
-                        console.log(xhr.responseText);
-                    }
-                })
-            }
-            });";
 
 
         ?>
@@ -267,4 +110,5 @@
 
 </body>
 @endsection
+
 </html>
