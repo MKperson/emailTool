@@ -57,7 +57,7 @@
 
                 <input type="hidden" id="_token" value="{{ csrf_token() }}">
 
-                Current Phase <select id='p_name' onchange="reload()">
+                Current Phase: <select id='p_name' onchange="reload()">
                     <?php
                     $index = 0;
                     for ($i = 0; $i < sizeof($phase); $i++) {
@@ -93,6 +93,8 @@
                     <input type="button" value='Submit' onClick="update()">
                     <input type="button" value="Cancel" onclick="location.href = '/'"><br>
                     <input type="button" value="Preview message" onclick="preview()">
+                    <input type="button" value="Send message" onclick="sendemail()">
+                    
                     
                     <script type="text/javascript" src='js/scripts.js'></script>
 

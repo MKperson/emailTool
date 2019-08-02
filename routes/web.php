@@ -19,6 +19,8 @@ Route::get('/', 'EmailerController@index')->middleware('auth');
 Route::post('/update', 'EmailerController@update')->name('update');
 Route::post('/reload', 'EmailerController@reload')->name('reload');
 Route::match(['get', 'post'] ,'/template', 'EmailerController@template')->name('template');
+Route::any('/sendEmail', 'EmailerController@sendEmail')->name('reload');
+
 
 Route::post('client/', function () {
     return view('client');
@@ -31,3 +33,4 @@ Route::get('fetchtest', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+

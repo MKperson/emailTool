@@ -131,3 +131,51 @@ function preview(){
     })
 
 };
+function sendemail(){
+    
+    var cma = $('#c_email').val();
+    var cn = $('#company_name').val();
+    var pn = $('#p_name').val();
+    var edl = $('#est_day_left').val();
+    var pc = $('#p_comment').val();
+    var dc = $('#delv_content')[0].checked
+    if (dc == true)
+        dc = 1;
+    else
+        dc = 0;
+    
+
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: "/sendEmail",
+        type: 'POST',
+        data: {
+            to: cma,
+            //_token: tok,
+            p_name: pn,
+            est_day_left: edl,
+            comment: pc,
+            delv_content: dc,
+            company_name:cn
+
+            //form: str,
+            //phase: ph,
+            //_token: '{{csrf_token()}}'
+        },
+        success: function (response) {
+            console.log('Success: ' + response);
+            
+            //alert('Success');
+        },
+        error: function (xhr, errorCode, errorThrown) {
+            console.log(xhr.responseText);
+        }
+    })
+
+};

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class EmailerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function Index()
     {
@@ -88,6 +92,11 @@ class EmailerController extends Controller
         //return "hand function called";
 
     }
+    public function sendEmail(){
+        return view('sendEmail',$_POST);
+    }
+
+
     public function getAdminData()
     {
         echo 'admin data method';
