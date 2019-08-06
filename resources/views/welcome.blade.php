@@ -120,7 +120,8 @@
                                 ?>
                             </select>
                             
-                            <input type="submit" value="submit">
+                            <input type="submit" value="submit"><br>
+                            <input type= "button" value = "Preview Email Template" onclick = "location.href = '/template'">
                         </form>
 
 

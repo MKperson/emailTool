@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class EmailerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function Index()
     {
@@ -63,16 +67,13 @@ class EmailerController extends Controller
         //return view('welcome'); 
         return "update called.";
     }
-    public function getAdminData()
-    {
-        echo 'admin data method';
+    public function template(){
+        //var_dump($_POST);
+        return view('template',$_POST);
     }
-    public function adminPassword()
-    {
-        echo 'password method';
-    }
+    
     public function reload(){
-        var_dump($_POST);
+        //var_dump($_POST);
         $cur_phase = DB::select('select * from c_phase where cust_id  = ' .$_POST['cust_id']. ' and p_name = \''.$_POST['p_name'].'\'');
         $curarray = array('cur_phase'=>$cur_phase[0]->phase_id);
         var_dump($curarray);
@@ -90,5 +91,18 @@ class EmailerController extends Controller
         ->update($array);
         //return "hand function called";
 
+    }
+    public function sendEmail(){
+        return view('sendEmail',$_POST);
+    }
+
+
+    public function getAdminData()
+    {
+        echo 'admin data method';
+    }
+    public function adminPassword()
+    {
+        echo 'password method';
     }
 }
