@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 use Socialite;
 //just installed the socialite from laravel documentation https://laravel.com/docs/5.8/socialite <-- LOOK AT ME!!!
@@ -16,8 +19,20 @@ class LoginController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::with('GitLab')->redirect();
-        //return Socialite::driver('gitlab')->redirect();
+        // $clientId = env('GITLAB_CLIENT_ID');
+        // $clientSecret = env('GITLAB_CLIENT_SECRET');
+        // $redirectUrl = env('GITLAB_REDIRECT_URI');
+        // $additionalProviderConfig = ['site' => 'http://gitlab.getfoundeugene.com/oauth/'];
+        // $config = new \SocialiteProviders\Manager\Config($clientId, $clientSecret, $redirectUrl, $additionalProviderConfig);
+        // return Socialite::with('gitlab')->setConfig($config)->redirect();
+
+
+        //return Socialite::with('gitlab')
+        //->with(['redirect_uri' => "http://localhost:8000/login/handleProviderCallback"])
+        //->redirect();
+
+        //so to make gitlab work as i wanted to and not how it was by defalt i modified the vendor files so that it went to the correct subdomain ;)
+        return Socialite::driver('gitlab')->redirect();
     }
 
     /**
@@ -25,14 +40,33 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    use AuthenticatesUsers;
     public function handleProviderCallback()
     {
         $user = Socialite::driver('gitlab')->user();
         var_dump($user);
 
-        // $user->token;
+        $users =   User::where(['email' => $user->getEmail()])->first();
+        //var_dump($users);
+        if ($users) {
+            Auth::login($users);
+            return redirect('/');
+        } else {
+            $user = User::create([
+                'name'          => $user->getName(),
+                'email'         => $user->getEmail(),
+                'image'         => $user->getAvatar(),
+                'provider_id'   => $user->getId(),
+                'provider'      => 'gitlab',
+            ]);
+            return redirect()->route('home');
+        }
+
+
+        //$user->token;
+
     }
-    use AuthenticatesUsers;
+
 
     /**
      * Where to redirect users after login.
