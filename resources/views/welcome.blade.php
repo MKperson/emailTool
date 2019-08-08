@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_token" value="{{ csrf_token() }}">
 
     <title>Emailer</title>
 
@@ -101,8 +102,9 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 -->
-                        <form action="client" method="POST">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <form action="/client" method="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            
 
                             Who do you want to edit?
 

@@ -42,8 +42,8 @@ $to = $_POST['to'];
 
 
 # Instantiate the client.
-$mgClient = new Mailgun('5a19a35eb274d64c062a3ff96b99eafb-f877bd7a-c01c114e');
-$domain = "sandboxa4161c45b2ba4c79aa393f9fdb075c49.mailgun.org";
+$mgClient = new Mailgun(env('MAILGUN_API_KEY'));
+$domain = env('MAILGUN_DOMAIN');
 # Make the call to the client.
 $result = $mgClient->sendMessage($domain, array(
 	'from'	=> $fromName.' <'. $from .'>',
