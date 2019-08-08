@@ -6,41 +6,32 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\User;
-
 use Socialite;
 //just installed the socialite from laravel documentation https://laravel.com/docs/5.8/socialite <-- LOOK AT ME!!!
 
 class LoginController extends Controller
 {
+    use AuthenticatesUsers;
     /**
-     * Redirect the user to the Gitlub authentication page.
+     * Redirect the user to the Gitlab authentication page.
      *
      * @return \Illuminate\Http\Response
      */
     public function redirectToProvider()
     {
-        // $clientId = env('GITLAB_CLIENT_ID');
-        // $clientSecret = env('GITLAB_CLIENT_SECRET');
-        // $redirectUrl = env('GITLAB_REDIRECT_URI');
-        // $additionalProviderConfig = ['site' => 'http://gitlab.getfoundeugene.com/oauth/'];
-        // $config = new \SocialiteProviders\Manager\Config($clientId, $clientSecret, $redirectUrl, $additionalProviderConfig);
-        // return Socialite::with('gitlab')->setConfig($config)->redirect();
-
-
-        //return Socialite::with('gitlab')
-        //->with(['redirect_uri' => "http://localhost:8000/login/handleProviderCallback"])
-        //->redirect();
-
         //so to make gitlab work as i wanted to and not how it was by defalt i modified the vendor files so that it went to the correct subdomain ;)
+        //with out modification 'gitlab' would take you to https://gitlab.com/user/sign_in -> getfounds sub domain for gitlab as of 8/7/2019 is http://gitlab.getfoundeugene.com
+        //Take note of the missing "S" in the url
+            
         return Socialite::driver('gitlab')->redirect();
     }
 
     /**
-     * Obtain the user information from Gitlub.
+     * Obtain the user information from Gitlab.
      *
      * @return \Illuminate\Http\Response
      */
-    use AuthenticatesUsers;
+    
     public function handleProviderCallback()
     {
         $user = Socialite::driver('gitlab')->user();
@@ -61,13 +52,8 @@ class LoginController extends Controller
             ]);
             return redirect()->route('home');
         }
-
-
         //$user->token;
-
     }
-
-
     /**
      * Where to redirect users after login.
      *
@@ -85,8 +71,8 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 }
-//}
-//this is the old auth 
+//
+//this is the old auth login controller 
 // namespace App\Http\Controllers\Auth;
 
 // use App\Http\Controllers\Controller;

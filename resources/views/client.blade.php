@@ -8,25 +8,27 @@
 
 
 <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}"> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
     <title>Emailer</title>
 
-    
-</head>
-@section('content')
 
+</head>
+
+
+@section('content')
 <body>
 
     <div>
         <?php
 
         use \App\Http\Controllers\EmailerController;
+        //var_dump($_POST);
 
         $name = $_POST['formCustomer'];
         //var_dump($name);
@@ -46,12 +48,13 @@
 
             echo "<h3>Editing</h3>";
             echo "<h4>$result->c_name</h4>"; ?>
-            <form action="/update" method='POST'>
+            <form  id='update-form'>
+            <ul id="errorMessages" ></ul>
                 <!---->
-                Email: <input type='text' id='c_email' value='<?php echo $result->c_email ?>'></br>
+                Email: <input type='email' id='c_email' value='<?php echo $result->c_email ?>'required ></br>
                 Address: <input type='text' id='c_address' value='<?php echo $result->c_address ?>'></br>
-                Phone: <input type='text' id='c_number' value='<?php echo $result->c_number ?>'></br>
-                <input type="hidden" id="cust_id" value='<?php echo $result->cust_id ?>'>
+                Phone: <input required type='text' id='c_number' value='<?php echo $result->c_number ?>' required></br>
+                <input type="hidden" id="cust_id" value='<?php echo $result->cust_id ?>' >
                 <input type="hidden" id="cur_phase" value='<?php echo $result->cur_phase ?>'>
                 <input type="hidden" id="company_name" value='<?php echo $result->c_name ?>'>
 
@@ -76,7 +79,7 @@
                     //echo "Current Phase: <input type='text' value='$result->cur_phase'></br></br>";
                     //echo "$daymess : <input type='text' name= 'days' value='$result->est_day_left'></br>";
                     ?>
-                    <?php echo $daymess ?> : <input type='text' id='est_day_left' value='<?php echo $phase[$index]->est_day_left ?>'> </br>
+                    <?php echo $daymess ?> : <input type='number' id='est_day_left' value='<?php echo $phase[$index]->est_day_left ?>' required> </br>
 
                     Additional Comments:<br><textarea id='p_comment'><?php echo $phase[$index]->p_comment ?></textarea></br>
                     <?php
@@ -90,13 +93,22 @@
 
 
                     ?>
-                    <input type="button" value='Submit' onClick="update()">
+                    <input type="submit" value='Submit' onclick="return update(); return false;" >
                     <input type="button" value="Cancel" onclick="location.href = '/'"><br>
                     <input type="button" value="Preview message" onclick="preview()">
                     <input type="button" value="Send message" onclick="sendemail()">
-                    
-                    
+
+
                     <script type="text/javascript" src='js/scripts.js'></script>
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
 
             </form>
         <?php
