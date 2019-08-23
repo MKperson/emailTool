@@ -19,16 +19,16 @@ Route::get('/', 'EmailerController@index')->middleware('auth');
 Route::post('/update', 'EmailerController@update')->name('update');
 Route::post('/reload', 'EmailerController@reload')->name('reload');
 Route::match(['get', 'post'] ,'/template', 'EmailerController@template')->name('template');
-Route::any('/sendEmail', 'EmailerController@sendEmail')->name('reload');
+Route::post('/sendEmail', 'EmailerController@sendEmail')->name('reload');
 
 
 Route::post('/client','EmailerController@client')->name('client');
     
 
 
-Route::get('fetchtest', function () {
+/* Route::get('fetchtest', function () {
     return view('fetchtest');
-});
+}); */
 
 Auth::routes(['register' => true]);
 

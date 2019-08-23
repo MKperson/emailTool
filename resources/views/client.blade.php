@@ -97,6 +97,10 @@
                     <input type="button" value="Cancel" onclick="location.href = '/'"><br>
                     <input type="button" value="Preview message" onclick="preview()">
                     <input type="button" value="Send message" onclick="sendemail()">
+                    
+                    <?php
+                    //See Emailer controller for more info on sendemail()
+                    ?>
 
 
                     <script type="text/javascript" src='js/scripts.js'></script>
