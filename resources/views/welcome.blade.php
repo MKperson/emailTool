@@ -89,7 +89,7 @@
         //echo $update;
             ?>
             <div class="title m-b-md">
-                Made with Laravel
+                Emailer Tool
             </div>
 
             <div>
