@@ -11,15 +11,29 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', 'EmailerController@index')->middleware('auth');
+//Route::get('/', function () {
+//return view('welcome');
+//});
+Route::post('/update', 'EmailerController@update')->name('update');
+Route::post('/reload', 'EmailerController@reload')->name('reload');
+Route::match(['get', 'post'] ,'/template', 'EmailerController@template')->name('template');
+Route::any('/sendEmail', 'EmailerController@sendEmail')->name('reload');
+
+
+Route::post('/client','EmailerController@client')->name('client');
+    
+
+
+Route::get('fetchtest', function () {
+    return view('fetchtest');
 });
 
-Route::post('client/', function () {
-    return view('client');
-});
+Auth::routes(['register' => true]);
 
-Route::get('login/', function () {
-    return view('login');
-});
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('login/gitlab', 'Auth\LoginController@redirectToProvider');
+Route::get('login/gitlab/callback', 'Auth\LoginController@handleProviderCallback');
 
