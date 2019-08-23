@@ -1,8 +1,14 @@
 <?php
+/*
+
+THIS IS NO LONGER USED !!!!!
+ALL ROUTES TO THIS ARE GONE !!!
+
+
 # Include the Autoloader (see "Libraries" for install instructions)
 require '../vendor/autoload.php';
 use Mailgun\Mailgun;
-
+use Mail;
 
 //var_dump($_POST);
 $to = $_POST['to'];
@@ -42,13 +48,15 @@ $to = $_POST['to'];
 
 
 # Instantiate the client.
-$mgClient = new Mailgun(env('MAILGUN_API_KEY'));
-$domain = env('MAILGUN_DOMAIN');
+//$mgClient = new Mailgun(env('MAILGUN_SECRET'));
+//$domain = env('MAILGUN_DOMAIN');
 # Make the call to the client.
-$result = $mgClient->sendMessage($domain, array(
+/*$result = $mgClient->sendMessage($domain, array(
 	'from'	=> $fromName.' <'. $from .'>',
 	'to'	=> $company_name.' <'.$to.'>',
 	'subject' => $subject,
     'html'	=> $htmlContent,
     //'o:skip-verification' => 'True'
-));
+));*/
+
+

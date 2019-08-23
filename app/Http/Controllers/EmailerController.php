@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Mockery\CountValidator\Exception;
 use Whoops\Exception\ErrorException;
 use Psy\Exception\ErrorException as PsyErrorException;
+use Illuminate\Support\Facades\Auth;
+use Mail;
+
 
 class EmailerController extends Controller
 {
@@ -119,7 +122,56 @@ class EmailerController extends Controller
     }
     public function sendEmail()
     {
-        return view('sendEmail', $_POST);
+
+        $to = $_POST['to'];
+        $from =  Auth::user()['email'];
+        $fromName = Auth::user()['name'];
+        $company_name = $_POST['company_name'];
+        $phase_name = $_POST['p_name'];
+        $interval = 'daily';
+        $est_day_left = $_POST['est_day_left'];
+        $oppmess = $_POST['delv_content'];
+        if ($oppmess == 0) {
+            $oppmess = 'We still require some additional items from you. Until we receve the content nessisary the estimated completion time will keep being pushed. ';
+        } else {
+            $oppmess = '';
+        }
+        $comment = $_POST['comment'];
+
+        $subject = "Get Found Update on your Project";
+
+        $htmlContent = ' 
+    
+    <br>
+    Dear ' . $company_name . ', <br>
+    This is your ' . $interval . ' update we are currently working on ' . $phase_name . '.
+    We are currently estimating about ' . $est_day_left . ' days left.
+    ' . $comment . ' 
+    <br>
+    ' . $oppmess . '
+    <br>
+    Senerly,
+    <br>
+    ' . $fromName . '
+        
+    ';
+
+
+        $data = array('to' => $to, 'from' => $from, 'fromname' => $fromName, 'content' => $htmlContent, 'title' => $subject);
+
+
+        Mail::send(['html' => 'emails.send'], $data, function ($message) use ($data) {
+            $message->subject($data['title']);
+            $message->from($data['from'], $data['fromname']);
+            $message->to($data['to']);
+        });
+
+
+        return response()->json(['message' => 'Request completed']);
+
+
+
+        //return view('sendEmail', $_POST);
     }
     public function client()
     {
