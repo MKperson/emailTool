@@ -123,6 +123,8 @@ class EmailerController extends Controller
     public function sendEmail()
     {
 
+        //Can use post method with below vars to skip the button on client view
+
         $to = $_POST['to'];
         $from =  Auth::user()['email'];
         $fromName = Auth::user()['name'];
